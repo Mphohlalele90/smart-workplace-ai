@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Workplace API Demo</title>
+</head>
+<body>
+    <h1>Smart Workplace API Demo</h1>
+
+    <!-- Employees -->
+    <button onclick="fetchEmployees()">Show Employees</button>
+    <table border="1" id="employee-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Role</th>
+                <th>Department</th>
+                <th>Employment Type</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Projects -->
+    <button onclick="fetchProjects()">Show Projects</button>
+    <table border="1" id="projects-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Project Name</th>
+                <th>Deadline</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Work Logs -->
+    <button onclick="fetchWorkLogs()">Show Work Logs</button>
+    <table border="1" id="worklogs-table">
+        <thead>
+            <tr>
+                <th>Log ID</th>
+                <th>Employee ID</th>
+                <th>Project ID</th>
+                <th>Date</th>
+                <th>Hours Worked</th>
+                <th>Overtime</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+<script>
+async function fetchEmployees() {
+    const response = await fetch('http://127.0.0.1:5000/employees');
+    const employees = await response.json();
+    const tbody = document.getElementById('employee-table').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = "";
+    employees.forEach(emp => {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = emp.employee_id;
+        row.insertCell(1).innerText = emp.first_name;
+        row.insertCell(2).innerText = emp.last_name;
+        row.insertCell(3).innerText = emp.role;
+        row.insertCell(4).innerText = emp.department;
+        row.insertCell(5).innerText = emp.employment_type;
+    });
+}
+
+async function fetchProjects() {
+    const response = await fetch('http://127.0.0.1:5000/projects');
+    const projects = await response.json();
+    const tbody = document.getElementById('projects-table').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = "";
+    projects.forEach(p => {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = p.project_id;
+        row.insertCell(1).innerText = p.project_name;
+        row.insertCell(2).innerText = p.deadline;
+        row.insertCell(3).innerText = p.priority_level;
+    });
+}
+
+async function fetchWorkLogs() {
+    const response = await fetch('http://127.0.0.1:5000/work_logs');
+    const logs = await response.json();
+    const tbody = document.getElementById('worklogs-table').getElementsByTagName('tbody')[0];
+    tbody.innerHTML = "";
+    logs.forEach(l => {
+        const row = tbody.insertRow();
+        row.insertCell(0).innerText = l.log_id;
+        row.insertCell(1).innerText = l.employee_id;
+        row.insertCell(2).innerText = l.project_id;
+        row.insertCell(3).innerText = l.work_date;
+        row.insertCell(4).innerText = l.hours_worked;
+        row.insertCell(5).innerText = l.overtime;
+    });
+}
+</script>
+</body>
+</html>
